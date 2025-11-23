@@ -1,0 +1,93 @@
+{
+  "rules": [
+    {
+      "id": "severe_chest_pain",
+      "conditions": {
+        "symptoms": ["chest_pain"],
+        "followUp": {
+          "chest_severity": ["Şiddetli / Sıkışma hissi"]
+        }
+      },
+      "priority": "CRITICAL",
+      "message": "Şiddetli göğüs ağrısı kalp krizi belirtisi olabilir!",
+      "recommendation": "DERHAL 112'yi arayın veya en yakın acil servise gidin. Zaman kaybetmeyin!",
+      "actions": ["call_112", "find_emergency"]
+    },
+    {
+      "id": "severe_breathing",
+      "conditions": {
+        "symptoms": ["shortness_breath"],
+        "followUp": {
+          "breath_severity": ["Şiddetli (nefes alamıyorum)"]
+        }
+      },
+      "priority": "CRITICAL",
+      "message": "Ciddi nefes darlığı acil müdahale gerektirir!",
+      "recommendation": "DERHAL 112'yi arayın. Oturur pozisyonda bekleyin.",
+      "actions": ["call_112", "find_emergency"]
+    },
+    {
+      "id": "confusion",
+      "conditions": {
+        "symptoms": ["confusion"]
+      },
+      "priority": "CRITICAL",
+      "message": "Bilinç bulanıklığı ciddi bir durumdur!",
+      "recommendation": "DERHAL 112'yi arayın veya acil servise gidin.",
+      "actions": ["call_112", "find_emergency"]
+    },
+    {
+      "id": "meningitis_signs",
+      "conditions": {
+        "symptoms": ["stiff_neck", "fever", "headache"],
+        "followUp": {
+          "fever_level": ["39°C'nin üstünde"],
+          "headache_severity": ["Şiddetli"]
+        }
+      },
+      "priority": "CRITICAL",
+      "message": "Yüksek ateş, şiddetli baş ağrısı ve ense sertliği menenjit belirtisi olabilir!",
+      "recommendation": "DERHAL acil servise başvurun. Bu belirtiler hayati tehlike oluşturabilir.",
+      "actions": ["call_112", "find_emergency"]
+    },
+    {
+      "id": "bloody_cough",
+      "conditions": {
+        "symptoms": ["cough"],
+        "followUp": {
+          "cough_type": ["Kanlı balgam"]
+        }
+      },
+      "priority": "HIGH",
+      "message": "Kanlı balgam ciddi bir solunum sorunu işareti olabilir!",
+      "recommendation": "Mümkün olan en kısa sürede bir doktora başvurun veya acil servise gidin.",
+      "actions": ["find_emergency", "call_doctor"]
+    },
+    {
+      "id": "high_fever_with_rash",
+      "conditions": {
+        "symptoms": ["fever", "rash"],
+        "followUp": {
+          "fever_level": ["39°C'nin üstünde"]
+        }
+      },
+      "priority": "HIGH",
+      "message": "Yüksek ateş ve döküntü birlikte ciddi enfeksiyon belirtisi olabilir!",
+      "recommendation": "Acil servise başvurmanız önerilir.",
+      "actions": ["find_emergency"]
+    },
+    {
+      "id": "severe_throat",
+      "conditions": {
+        "symptoms": ["sore_throat"],
+        "followUp": {
+          "throat_severity": ["Yutkunamayacak kadar şiddetli"]
+        }
+      },
+      "priority": "HIGH",
+      "message": "Yutkunamayacak kadar şiddetli boğaz ağrısı acil değerlendirme gerektirir!",
+      "recommendation": "Bugün içinde bir doktora başvurun veya acil servise gidin.",
+      "actions": ["find_emergency", "call_doctor"]
+    }
+  ]
+}

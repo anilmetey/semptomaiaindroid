@@ -1,0 +1,70 @@
+### IntelliJ IDEA ###
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### Kotlin ###
+.kotlin
+
+### Eclipse ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+### Mac OS ###
+.DS_Store
+
+### Android ###
+*.iml
+.gradle
+/local.properties
+/.idea/
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+*.apk
+*.ap_
+*.aab
+
+### Gradle ###
+.gradle/
+build/
+
+### Android Studio ###
+*.iml
+.idea/
+.gradle/
+local.properties
+
+### Python ###
+ml_model/venv/
+ml_model/__pycache__/
+ml_model/*.pyc
+ml_model/output/
+*.pkl
+*.h5
+
+### Sensitive ###
+local.properties
+google-services.json
+*.keystore
+*.jks

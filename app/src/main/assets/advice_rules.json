@@ -1,0 +1,218 @@
+{
+  "rules": [
+    {
+      "id": "fever_general",
+      "conditions": {
+        "symptoms": ["fever"]
+      },
+      "advices": [
+        {
+          "title": "Ateş Yönetimi",
+          "description": "Bol sıvı tüketin (su, ılık çay, meyve suyu). Hafif giysiler giyin ve odanızı serin tutun. Dinlenmeye özen gösterin.",
+          "type": "GENERAL"
+        },
+        {
+          "title": "İlaç Kullanımı",
+          "description": "Eczacınıza danışarak Parasetamol veya İbuprofen etken maddeli ateş düşürücüler hakkında bilgi alabilirsiniz. Dozaj için mutlaka eczacı veya doktor önerisi alın.",
+          "type": "MEDICATION_INFO",
+          "warnings": [
+            "Astım hastalarının İbuprofen kullanmadan önce doktoruna danışması gerekir",
+            "18 yaş altı çocuklara Aspirin verilmemelidir"
+          ]
+        },
+        {
+          "title": "Doktor Başvurusu",
+          "description": "Ateşiniz 3 günden fazla sürüyorsa, 39.5°C'nin üzerindeyse veya diğer ciddi belirtiler eşlik ediyorsa mutlaka bir doktora başvurun.",
+          "type": "WARNING"
+        }
+      ]
+    },
+    {
+      "id": "cough_dry",
+      "conditions": {
+        "symptoms": ["cough"],
+        "followUp": {
+          "cough_type": ["Kuru öksürük"]
+        }
+      },
+      "advices": [
+        {
+          "title": "Kuru Öksürük İçin Öneriler",
+          "description": "Bol sıvı için, özellikle ılık içecekler boğazı rahatlatır. Bal ve limon karışımı (1 yaş üstü için) öksürüğü hafifletebilir. Hava nemlendiricisi kullanabilirsiniz.",
+          "type": "SYMPTOM_RELIEF"
+        },
+        {
+          "title": "Eczacı Danışması",
+          "description": "Eczacınızdan öksürük şurubu veya pastil önerisi alabilirsiniz. Özellikle gece öksürüğü rahatsız ediyorsa, eczacınıza danışın.",
+          "type": "MEDICATION_INFO"
+        }
+      ]
+    },
+    {
+      "id": "cough_productive",
+      "conditions": {
+        "symptoms": ["cough"],
+        "followUp": {
+          "cough_type": ["Balgamlı öksürük"]
+        }
+      },
+      "advices": [
+        {
+          "title": "Balgamlı Öksürük İçin Öneriler",
+          "description": "Bol sıvı tüketin, bu balgamın atılmasını kolaylaştırır. Buhar inhalasyonu yapabilirsiniz. Öksürüğü bastırmak yerine balgamı çıkarmaya çalışın.",
+          "type": "SYMPTOM_RELIEF"
+        },
+        {
+          "title": "Uyarı",
+          "description": "Balgam rengi yeşil, sarı veya kanlıysa, öksürük 2 haftadan fazla sürüyorsa mutlaka bir doktora başvurun.",
+          "type": "WARNING"
+        }
+      ]
+    },
+    {
+      "id": "headache_mild",
+      "conditions": {
+        "symptoms": ["headache"],
+        "followUp": {
+          "headache_severity": ["Hafif", "Orta"]
+        }
+      },
+      "advices": [
+        {
+          "title": "Baş Ağrısı Rahatlatma",
+          "description": "Karanlık ve sessiz bir odada dinlenin. Bol su için (dehidrasyon baş ağrısı yapabilir). Soğuk kompres alına uygulanabilir.",
+          "type": "SYMPTOM_RELIEF"
+        },
+        {
+          "title": "Ağrı Kesici Kullanımı",
+          "description": "Eczacınıza danışarak Parasetamol veya İbuprofen etken maddeli ağrı kesiciler hakkında bilgi alabilirsiniz.",
+          "type": "MEDICATION_INFO",
+          "warnings": [
+            "Sık ağrı kesici kullanımı (ayda 10 günden fazla) rebound baş ağrısına neden olabilir"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cold_symptoms",
+      "conditions": {
+        "symptoms": ["runny_nose", "sneezing", "sore_throat"]
+      },
+      "advices": [
+        {
+          "title": "Soğuk Algınlığı Bakımı",
+          "description": "Bol sıvı tüketin, dinlenin ve vücudunuzun iyileşmesine izin verin. Tuzlu su ile gargara boğaz ağrısını rahatlatabilir. Burun tıkanıklığı için tuzlu su spreyi kullanabilirsiniz.",
+          "type": "GENERAL"
+        },
+        {
+          "title": "Yaşam Tarzı",
+          "description": "Ellerinizi sık yıkayın, başkalarına bulaştırmamak için mendil kullanın. Sigara ve alkol tüketiminden kaçının.",
+          "type": "LIFESTYLE"
+        },
+        {
+          "title": "İyileşme Süreci",
+          "description": "Soğuk algınlığı genellikle 7-10 gün içinde kendiliğinden iyileşir. Belirtiler 10 günden fazla sürerse veya kötüleşirse doktora başvurun.",
+          "type": "GENERAL"
+        }
+      ]
+    },
+    {
+      "id": "allergy_symptoms",
+      "conditions": {
+        "symptoms": ["sneezing", "itchy_eyes", "runny_nose"]
+      },
+      "advices": [
+        {
+          "title": "Alerji Yönetimi",
+          "description": "Alerjen kaynaklardan uzak durun (polen, toz, hayvan tüyü vb.). Pencerelerinizi kapalı tutun, özellikle polen sezonunda. Evde hava temizleyici kullanabilirsiniz.",
+          "type": "LIFESTYLE"
+        },
+        {
+          "title": "Antihistaminik Kullanımı",
+          "description": "Eczacınızdan antihistaminik ilaçlar hakkında bilgi alabilirsiniz. Reçetesiz alerjik rinit ilaçları mevcuttur, ancak kullanmadan önce eczacınıza danışın.",
+          "type": "MEDICATION_INFO"
+        },
+        {
+          "title": "Uzun Vadeli Çözüm",
+          "description": "Kronik alerji belirtileriniz varsa, bir alerji uzmanına başvurarak alerji testleri yaptırabilir ve immünoterapi (alerji aşısı) seçeneklerini değerlendirebilirsiniz.",
+          "type": "GENERAL"
+        }
+      ]
+    },
+    {
+      "id": "digestive_symptoms",
+      "conditions": {
+        "symptoms": ["nausea", "vomiting", "diarrhea"]
+      },
+      "advices": [
+        {
+          "title": "Sıvı Dengesi",
+          "description": "Dehidrasyonu önlemek için bol sıvı tüketin. Su, berrak çorbalar, oral rehidrasyon solüsyonları tercih edin. Küçük yudumlarla sık sık için.",
+          "type": "GENERAL"
+        },
+        {
+          "title": "Beslenme",
+          "description": "İlk 24 saatte hafif yiyecekler tercih edin: kuru ekmek, pirinç, muz, elma püresi. Yağlı, baharatlı ve süt ürünlerinden kaçının.",
+          "type": "LIFESTYLE"
+        },
+        {
+          "title": "Doktor Başvurusu",
+          "description": "Kusma veya ishal 24 saatten fazla sürüyorsa, kanlı dışkı varsa, şiddetli karın ağrısı eşlik ediyorsa veya dehidrasyon belirtileri (kuru ağız, baş dönmesi) görülüyorsa mutlaka doktora başvurun.",
+          "type": "WARNING"
+        }
+      ]
+    },
+    {
+      "id": "flu_symptoms",
+      "conditions": {
+        "symptoms": ["fever", "cough", "muscle_pain", "fatigue"]
+      },
+      "advices": [
+        {
+          "title": "Grip Bakımı",
+          "description": "Bol dinlenin ve vücudunuzun enfeksiyonla savaşmasına izin verin. Bol sıvı tüketin. İzole olun ve başkalarına bulaştırmamaya özen gösterin.",
+          "type": "GENERAL"
+        },
+        {
+          "title": "Semptom Yönetimi",
+          "description": "Eczacınıza danışarak ateş düşürücü ve ağrı kesici ilaçlar hakkında bilgi alabilirsiniz. Grip genellikle 1-2 hafta içinde iyileşir.",
+          "type": "MEDICATION_INFO"
+        },
+        {
+          "title": "Komplikasyon Riski",
+          "description": "65 yaş üstü, kronik hastalığı olanlar, hamileler ve küçük çocuklar komplikasyon riski altındadır. Bu gruplardaysanız mutlaka bir doktora başvurun.",
+          "type": "WARNING"
+        }
+      ]
+    },
+    {
+      "id": "respiratory_distress",
+      "conditions": {
+        "symptoms": ["shortness_breath", "chest_pain"]
+      },
+      "advices": [
+        {
+          "title": "Acil Değerlendirme Gerekli",
+          "description": "Nefes darlığı ve göğüs ağrısı ciddi durumların belirtisi olabilir. Mümkün olan en kısa sürede bir sağlık kuruluşuna başvurun.",
+          "type": "EMERGENCY"
+        }
+      ]
+    },
+    {
+      "id": "general_advice",
+      "conditions": {},
+      "advices": [
+        {
+          "title": "Genel Sağlık Önerileri",
+          "description": "Dengeli beslenin, düzenli uyuyun, stres yönetimine özen gösterin. Düzenli egzersiz bağışıklık sisteminizi güçlendirir.",
+          "type": "LIFESTYLE"
+        },
+        {
+          "title": "Önemli Hatırlatma",
+          "description": "Bu öneriler bilgilendirme amaçlıdır ve tıbbi tavsiye yerine geçmez. Sağlık sorunlarınız için mutlaka bir sağlık profesyoneline danışın.",
+          "type": "WARNING"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "classes": [
+    {
+      "id": "common_cold",
+      "name": "Soğuk Algınlığı",
+      "description": "Üst solunum yolu viral enfeksiyonu. Genellikle hafif seyreder ve 7-10 gün içinde kendiliğinden iyileşir."
+    },
+    {
+      "id": "influenza",
+      "name": "Grip",
+      "description": "İnfluenza virüsünün neden olduğu akut solunum yolu enfeksiyonu. Soğuk algınlığından daha şiddetli seyreder."
+    },
+    {
+      "id": "allergic_rhinitis",
+      "name": "Alerjik Rinit",
+      "description": "Polen, toz veya diğer alerjenlere karşı aşırı bağışıklık tepkisi. Mevsimsel veya yıl boyu sürebilir."
+    },
+    {
+      "id": "covid_like",
+      "name": "COVID-19 Benzeri Üst Solunum Yolu Enfeksiyonu",
+      "description": "Koronavirüs veya benzer virüslerin neden olduğu solunum yolu enfeksiyonu. Test ile kesin tanı konulmalıdır."
+    },
+    {
+      "id": "bronchitis",
+      "name": "Bronşit",
+      "description": "Bronş tüplerinin iltihaplanması. Akut bronşit genellikle viral enfeksiyondan kaynaklanır."
+    },
+    {
+      "id": "sinusitis",
+      "name": "Sinüzit",
+      "description": "Sinüslerin iltihaplanması veya şişmesi. Viral, bakteriyel veya alerjik nedenlere bağlı olabilir."
+    },
+    {
+      "id": "migraine",
+      "name": "Migren",
+      "description": "Şiddetli, zonklayıcı baş ağrısı. Genellikle tek taraflıdır ve bulantı, ışığa duyarlılık eşlik edebilir."
+    },
+    {
+      "id": "gastroenteritis",
+      "name": "Gastroenterit (Mide Gribi)",
+      "description": "Mide ve bağırsakların iltihaplanması. Genellikle viral veya bakteriyel enfeksiyondan kaynaklanır."
+    }
+
+
+  ]
+}

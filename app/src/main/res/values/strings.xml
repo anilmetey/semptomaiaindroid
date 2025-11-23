@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SemptomAI</string>
+    
+    <!-- Disclaimer -->
+    <string name="disclaimer_title">Önemli Uyarı</string>
+    <string name="disclaimer_text">Bu uygulama tıbbi bir cihaz değildir ve profesyonel tıbbi tavsiye, teşhis veya tedavi yerine geçmez. Gösterilen sonuçlar sadece istatistiksel olasılıklara dayalı bilgilendirme amaçlıdır.\n\nSağlık sorunlarınız için mutlaka bir doktora danışın. Acil durumlarda 112\'yi arayın veya en yakın acil servise başvurun.\n\nBu uygulamayı kullanarak, sonuçların kesin olmadığını ve kendi sorumluluğunuzda hareket ettiğinizi kabul etmiş olursunuz.</string>
+    <string name="disclaimer_accept">Kabul Ediyorum</string>
+    <string name="disclaimer_decline">Reddet</string>
+    
+    <!-- Home -->
+    <string name="home_title">SemptomAI</string>
+    <string name="home_subtitle">Semptomlarınızı Analiz Edin</string>
+    <string name="home_start_analysis">Analiz Başlat</string>
+    <string name="home_my_profile">Profilim</string>
+    <string name="home_health_journal">Sağlık Günlüğü</string>
+    <string name="home_nearest_health">En Yakın Sağlık Kuruluşları</string>
+    
+    <!-- Symptoms -->
+    <string name="symptoms_title">Semptomlarınızı Seçin</string>
+    <string name="symptoms_subtitle">Yaşadığınız belirtileri işaretleyin</string>
+    <string name="symptoms_next">Devam Et</string>
+    <string name="symptoms_select_at_least_one">En az bir semptom seçmelisiniz</string>
+    
+    <!-- Follow-up -->
+    <string name="followup_title">Detay Soruları</string>
+    <string name="followup_subtitle">Daha doğru analiz için lütfen cevaplayın</string>
+    <string name="followup_analyze">Analiz Et</string>
+    
+    <!-- Results -->
+    <string name="results_title">Analiz Sonuçları</string>
+    <string name="results_warning">⚠️ Bu sonuçlar kesin teşhis değildir!</string>
+    <string name="results_probabilities">Olasılık Dağılımı</string>
+    <string name="results_recommendations">Öneriler</string>
+    <string name="results_save_to_journal">Günlüğe Kaydet</string>
+    <string name="results_find_nearest">En Yakın Sağlık Kuruluşu</string>
+    <string name="results_new_analysis">Yeni Analiz</string>
+    
+    <!-- Triage -->
+    <string name="triage_title">⚠️ ACİL DURUM</string>
+    <string name="triage_warning">Girdiğiniz belirtiler acil tıbbi müdahale gerektirebilir!</string>
+    <string name="triage_call_112">112\'yi Ara</string>
+    <string name="triage_find_emergency">En Yakın Acil Servis</string>
+    <string name="triage_back">Geri Dön</string>
+    
+    <!-- Profile -->
+    <string name="profile_title">Kullanıcı Profili</string>
+    <string name="profile_age">Yaş Aralığı</string>
+    <string name="profile_sex">Cinsiyet</string>
+    <string name="profile_chronic">Kronik Hastalıklar</string>
+    <string name="profile_allergies">Alerjiler</string>
+    <string name="profile_save">Kaydet</string>
+    <string name="profile_saved">Profil kaydedildi</string>
+    
+    <!-- Journal -->
+    <string name="journal_title">Sağlık Günlüğü</string>
+    <string name="journal_empty">Henüz kayıt yok</string>
+    <string name="journal_delete">Sil</string>
+    <string name="journal_export">Dışa Aktar</string>
+    
+    <!-- Map -->
+    <string name="map_title">Yakındaki Sağlık Kuruluşları</string>
+    <string name="map_emergency">Acil Servisler</string>
+    <string name="map_pharmacy">Eczaneler</string>
+    <string name="map_hospital">Hastaneler</string>
+    <string name="map_location_permission">Konum izni gerekli</string>
+    
+    <!-- Common -->
+    <string name="common_error">Bir hata oluştu</string>
+    <string name="common_loading">Yükleniyor…</string>
+    <string name="common_cancel">İptal</string>
+    <string name="common_ok">Tamam</string>
+    <string name="common_yes">Evet</string>
+    <string name="common_no">Hayır</string>
+</resources>

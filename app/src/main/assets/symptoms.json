@@ -1,0 +1,455 @@
+{
+  "meta": {
+    "version": "2.0",
+    "description": "Detailed Clinical Triage Data",
+    "language": "tr-TR"
+  },
+  "symptoms": [
+    {
+      "id": "fever",
+      "name": "Ateş",
+      "category": "FEVER",
+      "followUpQuestions": [
+        {
+          "id": "fever_level",
+          "question": "Ateşiniz termometre ile ölçüldü mü? En yüksek kaç derece?",
+          "options": [
+            { "text": "Ölçmedim / Hafif sıcaklık", "value": "fever_subjective", "severityIndex": 1 },
+            { "text": "37.5 - 38.5°C (Hafif)", "value": "fever_mild", "severityIndex": 3 },
+            { "text": "38.6 - 40°C (Yüksek)", "value": "fever_high", "severityIndex": 6 },
+            { "text": "40°C üzeri (Hiperpireksi)", "value": "fever_emergency", "severityIndex": 10, "redFlag": true }
+          ]
+        },
+        {
+          "id": "fever_duration",
+          "question": "Ateş ne kadar süredir devam ediyor?",
+          "options": [
+            { "text": "24 saatten az", "value": "duration_acute", "severityIndex": 1 },
+            { "text": "3 günden fazla", "value": "duration_persistent", "severityIndex": 5 },
+            { "text": "1 haftadan fazla", "value": "duration_chronic", "severityIndex": 7 }
+          ]
+        },
+        {
+          "id": "fever_associations",
+          "question": "Ateşle birlikte şunlardan hangisi var?",
+          "options": [
+            { "text": "Sadece halsizlik", "value": "assoc_none", "severityIndex": 1 },
+            { "text": "Ense sertliği ve ışığa bakamama", "value": "assoc_meningitis_signs", "severityIndex": 10, "redFlag": true },
+            { "text": "Ciltte basınca solmayan döküntü", "value": "assoc_petechiae", "severityIndex": 10, "redFlag": true }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cough",
+      "name": "Öksürük",
+      "category": "RESPIRATORY",
+      "followUpQuestions": [
+        {
+          "id": "cough_character",
+          "question": "Öksürüğün türü nedir?",
+          "options": [
+            { "text": "Kuru / Gıcıklı", "value": "cough_dry", "severityIndex": 2 },
+            { "text": "Balgamlı (Sarı/Yeşil)", "value": "cough_productive", "severityIndex": 4 },
+            { "text": "Kan tükürme (Hemoptizi)", "value": "cough_bloody", "severityIndex": 10, "redFlag": true },
+            { "text": "Havlar tarzda / Boğuk", "value": "cough_barking", "severityIndex": 5 }
+          ]
+        },
+        {
+          "id": "cough_timing",
+          "question": "Öksürük ne zaman artıyor?",
+          "options": [
+            { "text": "Gece yatınca", "value": "trigger_night", "severityIndex": 3 },
+            { "text": "Egzersizle veya soğuk havada", "value": "trigger_asthma", "severityIndex": 3 },
+            { "text": "Yemekten sonra", "value": "trigger_reflux", "severityIndex": 2 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "headache",
+      "name": "Baş Ağrısı",
+      "category": "PAIN",
+      "followUpQuestions": [
+        {
+          "id": "headache_onset",
+          "question": "Ağrı nasıl başladı?",
+          "options": [
+            { "text": "Yavaş yavaş arttı", "value": "onset_gradual", "severityIndex": 2 },
+            { "text": "Aniden, bomba patlar gibi (Yıldırım)", "value": "onset_thunderclap", "severityIndex": 10, "redFlag": true }
+          ]
+        },
+        {
+          "id": "headache_visual",
+          "question": "Görme bozukluğu eşlik ediyor mu?",
+          "options": [
+            { "text": "Hayır", "value": "visual_none", "severityIndex": 0 },
+            { "text": "Evet, ışıklar/çizgiler görüyorum (Aura)", "value": "visual_aura", "severityIndex": 4 },
+            { "text": "Çift görme veya ani görme kaybı", "value": "visual_loss", "severityIndex": 9, "redFlag": true }
+          ]
+        },
+        {
+          "id": "headache_history",
+          "question": "Daha önce böyle bir ağrı yaşadınız mı?",
+          "options": [
+            { "text": "Evet, migrenime benziyor", "value": "history_migraine", "severityIndex": 2 },
+            { "text": "Hayır, hayatımın en kötü ağrısı", "value": "history_worst_ever", "severityIndex": 10, "redFlag": true }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "runny_nose",
+      "name": "Burun Akıntısı",
+      "category": "RESPIRATORY",
+      "followUpQuestions": [
+        {
+          "id": "runny_duration",
+          "question": "Bu durum ne kadar süredir var?",
+          "options": [
+            { "text": "Yeni başladı (1-3 gün)", "value": "acute_rhinitis", "severityIndex": 1 },
+            { "text": "Mevsimsel / Yıllardır", "value": "chronic_allergic", "severityIndex": 0 }
+          ]
+        },
+        {
+          "id": "facial_pain",
+          "question": "Eğilince artan yüz/yanak ağrısı var mı?",
+          "options": [
+            { "text": "Hayır", "value": "sinus_negative", "severityIndex": 0 },
+            { "text": "Evet (Sinüzit şüphesi)", "value": "sinus_positive", "severityIndex": 3 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sore_throat",
+      "name": "Boğaz Ağrısı",
+      "category": "PAIN",
+      "followUpQuestions": [
+        {
+          "id": "throat_swelling",
+          "question": "Nefes almanızı engelleyen bir şişlik hissediyor musunuz?",
+          "options": [
+            { "text": "Hayır", "value": "swelling_none", "severityIndex": 1 },
+            { "text": "Evet, boğuluyor gibi hissediyorum", "value": "swelling_airway", "severityIndex": 10, "redFlag": true }
+          ]
+        },
+        {
+          "id": "throat_fever",
+          "question": "Ateş ve boyunda şişlik (lenf bezleri) var mı?",
+          "options": [
+            { "text": "Hayır", "value": "signs_viral", "severityIndex": 2 },
+            { "text": "Evet", "value": "signs_bacterial", "severityIndex": 5 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "shortness_breath",
+      "name": "Nefes Darlığı",
+      "category": "RESPIRATORY",
+      "followUpQuestions": [
+        {
+          "id": "breath_severity",
+          "question": "Şu anki durumunuz nedir?",
+          "options": [
+            { "text": "Rahatça cümle kurabiliyorum", "value": "breath_mild", "severityIndex": 2 },
+            { "text": "Konuşurken nefes nefese kalıyorum", "value": "breath_moderate", "severityIndex": 6 },
+            { "text": "Tek kelime bile edemiyorum / Morarma var", "value": "breath_severe", "severityIndex": 10, "redFlag": true }
+          ]
+        },
+        {
+          "id": "breath_position",
+          "question": "Sırtüstü yatınca nefesiniz daralıyor mu?",
+          "options": [
+            { "text": "Hayır", "value": "orthopnea_no", "severityIndex": 0 },
+            { "text": "Evet, yüksek yastıkta yatmam gerekiyor (Ortopne)", "value": "orthopnea_yes", "severityIndex": 7 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "chest_pain",
+      "name": "Göğüs Ağrısı",
+      "category": "PAIN",
+      "followUpQuestions": [
+        {
+          "id": "chest_quality",
+          "question": "Ağrı nasıl bir his?",
+          "options": [
+            { "text": "İğne batar gibi / Hareketle artan", "value": "pain_musculoskeletal", "severityIndex": 3 },
+            { "text": "Baskı / Fil oturmuş gibi / Sıkışma", "value": "pain_cardiac", "severityIndex": 10, "redFlag": true },
+            { "text": "Yanma (Mide asidi gibi)", "value": "pain_reflux", "severityIndex": 2 }
+          ]
+        },
+        {
+          "id": "chest_radiation",
+          "question": "Ağrı başka bir yere yayılıyor mu?",
+          "options": [
+            { "text": "Yayılmıyor", "value": "rad_none", "severityIndex": 1 },
+            { "text": "Sol kol, çene veya sırta yayılıyor", "value": "rad_classic_mi", "severityIndex": 10, "redFlag": true }
+          ]
+        },
+        {
+          "id": "chest_associated",
+          "question": "Ağrıyla birlikte soğuk terleme veya ölüm korkusu var mı?",
+          "options": [
+            { "text": "Hayır", "value": "assoc_none", "severityIndex": 0 },
+            { "text": "Evet", "value": "assoc_panic_mi", "severityIndex": 9, "redFlag": true }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nausea",
+      "name": "Mide Bulantısı",
+      "category": "DIGESTIVE",
+      "followUpQuestions": [
+        {
+          "id": "nausea_possibility",
+          "question": "Hamilelik şüphesi var mı? (Kadınlar için)",
+          "options": [
+            { "text": "Hayır / Geçerli değil", "value": "preg_no", "severityIndex": 0 },
+            { "text": "Evet / Olabilir", "value": "preg_possible", "severityIndex": 4 }
+          ]
+        },
+        {
+          "id": "nausea_head_injury",
+          "question": "Yakın zamanda başınızı bir yere çarptınız mı?",
+          "options": [
+            { "text": "Hayır", "value": "trauma_no", "severityIndex": 0 },
+            { "text": "Evet (Kafa travması sonrası bulantı)", "value": "trauma_yes", "severityIndex": 9, "redFlag": true }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "vomiting",
+      "name": "Kusma",
+      "category": "DIGESTIVE",
+      "followUpQuestions": [
+        {
+          "id": "vomit_signs",
+          "question": "Kusmuk içeriğinde kahve telvesi veya parlak kırmızı kan var mı?",
+          "options": [
+            { "text": "Hayır, sadece yediklerim/safra", "value": "content_gastric", "severityIndex": 3 },
+            { "text": "Evet, kan var", "value": "content_blood", "severityIndex": 10, "redFlag": true }
+          ]
+        },
+        {
+          "id": "hydration_status",
+          "question": "Su içebiliyor musunuz / İdrara çıkabiliyor musunuz?",
+          "options": [
+            { "text": "Evet", "value": "hydration_ok", "severityIndex": 1 },
+            { "text": "Hayır, ağzım kupkuru ve idrarım yok", "value": "hydration_dehydrated", "severityIndex": 8, "redFlag": true }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "diarrhea",
+      "name": "İshal",
+      "category": "DIGESTIVE",
+      "followUpQuestions": [
+        {
+          "id": "stool_color",
+          "question": "Dışkı rengi nasıl?",
+          "options": [
+            { "text": "Sarı / Kahverengi", "value": "stool_normal", "severityIndex": 2 },
+            { "text": "Siyah (Katran gibi) veya Kanlı", "value": "stool_melena", "severityIndex": 10, "redFlag": true }
+          ]
+        },
+        {
+          "id": "travel_history",
+          "question": "Yakın zamanda farklı bir ülkeye/bölgeye gittiniz mi?",
+          "options": [
+            { "text": "Hayır", "value": "travel_no", "severityIndex": 0 },
+            { "text": "Evet (Turist ishali/Enfeksiyon riski)", "value": "travel_yes", "severityIndex": 4 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sneezing",
+      "name": "Hapşırma",
+      "category": "RESPIRATORY",
+      "followUpQuestions": [
+        {
+          "id": "sneeze_trigger",
+          "question": "Belli bir ortamda mı artıyor?",
+          "options": [
+            { "text": "Tozlu/Polenli ortamlarda", "value": "trigger_allergy", "severityIndex": 1 },
+            { "text": "Her yerde, gribal belirtilerle", "value": "trigger_viral", "severityIndex": 2 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "itchy_eyes",
+      "name": "Gözlerde Kaşıntı",
+      "category": "OTHER",
+      "followUpQuestions": [
+        {
+          "id": "eye_vision",
+          "question": "Gözde ağrı veya bulanık görme var mı?",
+          "options": [
+            { "text": "Sadece kaşıntı ve sulanma", "value": "conjunctivitis_allergic", "severityIndex": 1 },
+            { "text": "Şiddetli ağrı ve görme kaybı", "value": "glaucoma_risk", "severityIndex": 10, "redFlag": true }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "loss_smell_taste",
+      "name": "Koku/Tat Kaybı",
+      "category": "NEUROLOGICAL",
+      "followUpQuestions": [
+        {
+          "id": "smell_assoc",
+          "question": "Diğer belirtiler neler?",
+          "options": [
+            { "text": "Burun tıkanıklığı var", "value": "cause_congestion", "severityIndex": 1 },
+            { "text": "Burun açık ama koku alamıyorum (Covid/Nörolojik)", "value": "cause_neuro", "severityIndex": 4 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "confusion",
+      "name": "Bilinç Bulanıklığı",
+      "category": "NEUROLOGICAL",
+      "followUpQuestions": [
+        {
+          "id": "confusion_onset",
+          "question": "Bu durum ne kadar hızlı gelişti?",
+          "options": [
+            { "text": "Yavaş yavaş (Aylar/Yıllar)", "value": "dementia_signs", "severityIndex": 3 },
+            { "text": "Son birkaç saatte/günde aniden", "value": "delirium_acute", "severityIndex": 10, "redFlag": true }
+          ]
+        },
+        {
+          "id": "confusion_diabetes",
+          "question": "Diyabet (Şeker) hastası mısınız?",
+          "options": [
+            { "text": "Hayır", "value": "history_none", "severityIndex": 0 },
+            { "text": "Evet (Hipoglisemi/Ketoasidoz riski)", "value": "history_diabetes", "severityIndex": 9, "redFlag": true }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stiff_neck",
+      "name": "Ense Sertliği",
+      "category": "NEUROLOGICAL",
+      "followUpQuestions": [
+        {
+          "id": "neck_fever_combo",
+          "question": "Yüksek ateş eşlik ediyor mu?",
+          "options": [
+            { "text": "Hayır, muhtemelen kas tutulması", "value": "muscle_spasm", "severityIndex": 2 },
+            { "text": "Evet, ateşli (Menenjit riski)", "value": "meningitis_risk", "severityIndex": 10, "redFlag": true }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rash",
+      "name": "Döküntü",
+      "category": "SKIN",
+      "followUpQuestions": [
+        {
+          "id": "rash_glass_test",
+          "question": "Döküntünün üzerine şeffaf bir bardak bastırınca soluyor mu?",
+          "options": [
+            { "text": "Evet, beyazlaşıyor/soluyor", "value": "rash_blanching", "severityIndex": 2 },
+            { "text": "Hayır, solmuyor (Kırmızı/Mor kalıyor)", "value": "rash_non_blanching", "severityIndex": 10, "redFlag": true }
+          ]
+        },
+        {
+          "id": "rash_spread",
+          "question": "Ne kadar hızlı yayılıyor?",
+          "options": [
+            { "text": "Günlerdir aynı", "value": "spread_stable", "severityIndex": 1 },
+            { "text": "Dakikalar içinde tüm vücuda yayıldı (Alerjik şok riski)", "value": "spread_rapid", "severityIndex": 10, "redFlag": true }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "chills",
+      "name": "Titreme",
+      "category": "FEVER",
+      "followUpQuestions": [
+        {
+          "id": "chills_fever",
+          "question": "Ateşiniz var mı?",
+          "options": [
+            { "text": "Evet", "value": "fever_chills", "severityIndex": 4 },
+            { "text": "Hayır, sadece üşüyorum", "value": "cold_intolerance", "severityIndex": 2 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "night_sweats",
+      "name": "Gece Terlemeleri",
+      "category": "FEVER",
+      "followUpQuestions": [
+        {
+          "id": "sweat_weight_loss",
+          "question": "Son zamanlarda istemsiz kilo kaybı yaşadınız mı?",
+          "options": [
+            { "text": "Hayır", "value": "weight_stable", "severityIndex": 2 },
+            { "text": "Evet", "value": "weight_loss_sign", "severityIndex": 6 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "muscle_pain",
+      "name": "Kas Ağrısı",
+      "category": "PAIN",
+      "followUpQuestions": [
+        {
+          "id": "muscle_urine",
+          "question": "İdrar renginizde koyulaşma (çay rengi) var mı?",
+          "options": [
+            { "text": "Hayır", "value": "urine_normal", "severityIndex": 1 },
+            { "text": "Evet (Kas yıkımı şüphesi)", "value": "rhabdo_risk", "severityIndex": 8, "redFlag": true }
+          ]
+        },
+        {
+          "id": "muscle_trauma",
+          "question": "Ağrıyan bölgede şişlik ve aşırı sertlik var mı?",
+          "options": [
+            { "text": "Sadece ağrı var", "value": "pain_simple", "severityIndex": 2 },
+            { "text": "Evet, davul gibi gergin (Kompartman sendromu)", "value": "compartment_syndrome", "severityIndex": 10, "redFlag": true }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fatigue",
+      "name": "Yorgunluk / Halsizlik",
+      "category": "OTHER",
+      "followUpQuestions": [
+        {
+          "id": "fatigue_pale",
+          "question": "Cildinizde solukluk veya göz içinizde beyazlaşma var mı?",
+          "options": [
+            { "text": "Hayır", "value": "skin_normal", "severityIndex": 2 },
+            { "text": "Evet (Kansızlık/Anemi şüphesi)", "value": "anemia_signs", "severityIndex": 4 }
+          ]
+        },
+        {
+          "id": "fatigue_depression",
+          "question": "Kendinizi mutsuz veya isteksiz hissediyor musunuz?",
+          "options": [
+            { "text": "Hayır, fiziksel olarak yorgunum", "value": "fatigue_physical", "severityIndex": 3 },
+            { "text": "Evet, hiçbir şey yapmak istemiyorum", "value": "fatigue_psych", "severityIndex": 2 }
+          ]
+        }
+      ]
+    }
+  ]
+}
