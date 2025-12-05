@@ -1,0 +1,16 @@
+[
+  {"id":"cold","name":"Soğuk Algınlığı"},
+  {"id":"flu","name":"Grip"},
+  {"id":"allergy","name":"Alerjik Rinit"},
+  {"id":"sinusitis","name":"Sinüzit"},
+  {"id":"covid","name":"COVID-19"},
+  {"id":"bronchitis","name":"Bronşit"},
+  {"id":"pneumonia","name":"Zatürre"},
+  {"id":"asthma_exacerbation","name":"Astım Alevlenmesi"},
+  {"id":"gastroenteritis","name":"Gastroenterit"},
+  {"id":"migraine","name":"Migren"},
+  {"id":"otitis_media","name":"Orta Kulak İltihabı"},
+  {"id":"pharyngitis","name":"Farenjit"},
+  {"id":"urti","name":"ÜSYE"},
+  {"id":"unspecified","name":"Belirsiz"}
+]

@@ -242,7 +242,71 @@ private fun DiseaseCard(disease: Disease) {
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
+
+            // Önerilen doktor bölümü
+            val department = getSuggestedDepartment(disease.name)
+            if (department.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "Önerilen bölüm: $department",
+                    style = MaterialTheme.typography.bodySmall,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }
         }
+    }
+}
+
+@Composable
+private fun getSuggestedDepartment(diseaseName: String): String {
+    val lower = diseaseName.lowercase()
+    return when {
+        // Kardiyoloji
+        listOf("kalp", "hipertansiyon", "koroner", "anjina", "aritmi").any { lower.contains(it) } ->
+            "Kardiyoloji"
+
+        // Göğüs hastalıkları
+        listOf("astım", "koah", "bronşit", "zatüre", "pnömoni", "solunum").any { lower.contains(it) } ->
+            "Göğüs Hastalıkları"
+
+        // İç hastalıkları (Dahiliye)
+        listOf("diyabet", "şeker", "hiperlipidemi", "kolesterol", "anemi", "karaciğer", "böbrek").any { lower.contains(it) } ->
+            "İç Hastalıkları (Dahiliye)"
+
+        // Nöroloji
+        listOf("migren", "baş ağrısı", "epilepsi", "nörolojik", "inme", "felç").any { lower.contains(it) } ->
+            "Nöroloji"
+
+        // KBB
+        listOf("sinüzit", "otit", "kulak", "burun", "boğaz", "tonsilit").any { lower.contains(it) } ->
+            "Kulak Burun Boğaz (KBB)"
+
+        // Dermatoloji
+        listOf("dermatit", "egzama", "sedef", "akne", "döküntü", "kurdeşen", "ürtiker").any { lower.contains(it) } ->
+            "Dermatoloji (Cildiye)"
+
+        // Psikiyatri
+        listOf("anksiyete", "depresyon", "panik", "bipolar", "psikoz", "uyku bozukluğu").any { lower.contains(it) } ->
+            "Psikiyatri"
+
+        // Ortopedi
+        listOf("kırık", "çıkık", "eklem", "diz", "omuz", "kalça", "bel fıtığı", "boyun fıtığı").any { lower.contains(it) } ->
+            "Ortopedi ve Travmatoloji"
+
+        // Enfeksiyon
+        listOf("enfeksiyon", "grip", "soğuk algınlığı", "covid", "viral", "bakteriyel").any { lower.contains(it) } ->
+            "Enfeksiyon Hastalıkları"
+
+        // Kadın doğum
+        listOf("gebelik", "hamile", "adet", "polikistik", "myom", "jinekolojik").any { lower.contains(it) } ->
+            "Kadın Hastalıkları ve Doğum"
+
+        // Çocuk sağlığı
+        listOf("çocuk", "pediatrik", "bebek", "infantil").any { lower.contains(it) } ->
+            "Çocuk Sağlığı ve Hastalıkları"
+
+        else -> ""
     }
 }
 

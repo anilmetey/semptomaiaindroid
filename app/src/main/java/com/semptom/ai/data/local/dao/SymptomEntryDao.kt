@@ -1,6 +1,6 @@
 package com.semptom.ai.data.local.dao
 
-import com.semptom.ai.data.repository.JournalEntry
+import com.semptom.ai.domain.model.JournalEntry
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 

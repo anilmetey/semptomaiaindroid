@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
 data class SymptomUiState(
     val symptoms: List<Symptom> = emptyList(),
     val filteredSymptoms: List<Symptom> = emptyList(),

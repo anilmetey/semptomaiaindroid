@@ -3,8 +3,8 @@ package com.semptom.ai.ui.screens.followup
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.semptom.ai.data.repository.ModelRepository
-import com.semptom.ai.data.repository.ProfileRepository
+import com.semptom.ai.domain.repository.ModelRepository
+import com.semptom.ai.domain.repository.ProfileRepository
 import com.semptom.ai.domain.model.FollowUpQuestion
 import com.semptom.ai.domain.model.SymptomSelection
 import dagger.hilt.android.lifecycle.HiltViewModel

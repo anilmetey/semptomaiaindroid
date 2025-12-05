@@ -11,243 +11,69 @@ import javax.inject.Singleton
 
 @Singleton
 class SymptomRepositoryImpl @Inject constructor() : SymptomRepository {
-
-    // In-memory storage as a temporary replacement for missing DB layer
-    private val allSymptoms = mutableListOf<Symptom>()
-    private val selectedSymptoms = MutableStateFlow<List<Symptom>>(emptyList())
-
-    private val allConditions = mutableListOf<Condition>()
-
-    override suspend fun getSymptoms(): List<Symptom> {
-        return allSymptoms.toList()
-    }
-
-    override suspend fun getSymptomById(id: String): Symptom? {
-        return allSymptoms.firstOrNull { it.id == id }
-    }
-
-    override suspend fun searchSymptoms(query: String): List<Symptom> {
-        return allSymptoms.filter { symptom ->
-            symptom.name.contains(query, ignoreCase = true)
-        }
-    }
-
-    override suspend fun getSymptomsByCategory(category: String): List<Symptom> {
-        return allSymptoms.filter { it.category.name == category }
-    }
-
-    override suspend fun saveSelectedSymptoms(symptoms: List<Symptom>) {
-        selectedSymptoms.value = symptoms
-    }
-
-    override suspend fun getSelectedSymptoms(): List<Symptom> {
-        return selectedSymptoms.value
-    }
-
-    override fun observeSelectedSymptoms(): Flow<List<Symptom>> {
-        return selectedSymptoms.asStateFlow()
-    }
-
+    
+    private val _selectedSymptoms = MutableStateFlow<List<Symptom>>(emptyList())
+    private val allSymptoms = listOf(
+        Symptom("headache", "Baş Ağrısı", "Genel baş ağrısı şikayeti", SymptomCategory.HEAD, 1),
+        Symptom("fever", "Ateş", "Yüksek vücut sıcaklığı", SymptomCategory.GENERAL, 2),
+        Symptom("cough", "Öksürük", "Kuru veya balgamlı öksürük", SymptomCategory.RESPIRATORY, 3),
+        Symptom("fatigue", "Yorgunluk", "Halsizlik ve enerji düşüklüğü", SymptomCategory.GENERAL, 1),
+        Symptom("nausea", "Mide Bulantısı", "Kusma hissi", SymptomCategory.GASTROINTESTINAL, 2),
+        Symptom("chest_pain", "Göğüs Ağrısı", "Göğüs bölgesinde ağrı", SymptomCategory.CHEST, 5),
+        Symptom("shortness_breath", "Nefes Darlığı", "Nefes almakta zorluk", SymptomCategory.RESPIRATORY, 5),
+        Symptom("dizziness", "Baş Dönmesi", "Denge bozukluğu hissi", SymptomCategory.NEUROLOGICAL, 2),
+        Symptom("sore_throat", "Boğaz Ağrısı", "Boğazda ağrı ve tahriş", SymptomCategory.EAR_NOSE_THROAT, 2),
+        Symptom("runny_nose", "Burun Akıntısı", "Burundan sıvı akması", SymptomCategory.EAR_NOSE_THROAT, 1),
+        Symptom("muscle_pain", "Kas Ağrısı", "Kaslarda ağrı ve hassasiyet", SymptomCategory.MUSCULOSKELETAL, 2),
+        Symptom("joint_pain", "Eklem Ağrısı", "Eklem bölgelerinde ağrı", SymptomCategory.MUSCULOSKELETAL, 2),
+        Symptom("stomach_pain", "Karın Ağrısı", "Karın bölgesinde ağrı", SymptomCategory.ABDOMEN, 3),
+        Symptom("diarrhea", "İshal", "Sulu ve sık dışkılama", SymptomCategory.GASTROINTESTINAL, 2),
+        Symptom("constipation", "Kabızlık", "Dışkılama zorluğu", SymptomCategory.GASTROINTESTINAL, 1),
+        Symptom("loss_of_appetite", "İştah Kaybı", "Yemek yeme isteğinin azalması", SymptomCategory.GASTROINTESTINAL, 1),
+        Symptom("weight_loss", "Kilo Kaybı", "İstenmeyen kilo düşüklüğü", SymptomCategory.GENERAL, 3),
+        Symptom("weight_gain", "Kilo Artışı", "İstenmeyen kilo artışı", SymptomCategory.GENERAL, 2),
+        Symptom("insomnia", "Uykusuzluk", "Uyku güçlüğü", SymptomCategory.PSYCHIATRIC, 2),
+        Symptom("excessive_thirst", "Aşırı Susuzluk", "Sürekli su içme ihtiyacı", SymptomCategory.GENERAL, 3),
+        Symptom("frequent_urination", "Sık İdrar", "Artmış idrar sıklığı", SymptomCategory.GENITOURINARY, 2),
+        Symptom("skin_rash", "Cilt Döküntüsü", "Ciltte kızarıklık veya leke", SymptomCategory.SKIN, 2),
+        Symptom("itching", "Kaşıntı", "Ciltte kaşıntı hissi", SymptomCategory.SKIN, 1),
+        Symptom("swelling", "Şişlik", "Vücut bölgelerinde ödem", SymptomCategory.GENERAL, 3),
+        Symptom("numbness", "Uyuşma", "His kaybı veya uyuşma", SymptomCategory.NEUROLOGICAL, 2),
+        Symptom("tingling", "Karıncalanma", "Ciltte karıncalanma hissi", SymptomCategory.NEUROLOGICAL, 1),
+        Symptom("blurred_vision", "Bulanık Görme", "Net görüş bozukluğu", SymptomCategory.EYE, 3),
+        Symptom("hearing_loss", "İşitme Kaybı", "Duyma güçlüğü", SymptomCategory.EAR_NOSE_THROAT, 4),
+        Symptom("ear_pain", "Kulak Ağrısı", "Kulakta ağrı", SymptomCategory.EAR_NOSE_THROAT, 3),
+        Symptom("nosebleed", "Burun Kanaması", "Burundan kan gelmesi", SymptomCategory.EAR_NOSE_THROAT, 2),
+        Symptom("bleeding_gums", "Diş Eti Kanaması", "Diş etlerinden kanama", SymptomCategory.EAR_NOSE_THROAT, 1),
+        Symptom("hair_loss", "Saç Dökülmesi", "Saçların aşırı dökülmesi", SymptomCategory.SKIN, 1)
+    )
+    private val allConditions = listOf<Condition>()
+    
+    override suspend fun getSymptoms(): List<Symptom> = allSymptoms
+    override suspend fun getSymptomById(id: String): Symptom? = allSymptoms.find { it.id == id }
+    override suspend fun searchSymptoms(query: String): List<Symptom> = allSymptoms.filter { it.name.contains(query, ignoreCase = true) }
+    override suspend fun getSymptomsByCategory(category: String): List<Symptom> = allSymptoms.filter { it.category.displayName == category }
+    override suspend fun saveSelectedSymptoms(symptoms: List<Symptom>) { _selectedSymptoms.value = symptoms }
+    override suspend fun getSelectedSymptoms(): List<Symptom> = _selectedSymptoms.value
+    override fun observeSelectedSymptoms(): Flow<List<Symptom>> = _selectedSymptoms.asStateFlow()
     override suspend fun toggleSymptomSelection(symptomId: String, isSelected: Boolean) {
-        val updated = allSymptoms.map { symptom ->
-            if (symptom.id == symptomId) {
-                symptom.copy(isSelected = isSelected)
-            } else symptom
+        val current = _selectedSymptoms.value.toMutableList()
+        val symptom = getSymptomById(symptomId)
+        if (isSelected && symptom != null) {
+            if (!current.any { it.id == symptomId }) current.add(symptom)
+        } else {
+            current.removeAll { it.id == symptomId }
         }
-        allSymptoms.clear()
-        allSymptoms.addAll(updated)
-        selectedSymptoms.value = updated.filter { it.isSelected }
+        _selectedSymptoms.value = current
     }
-
-    override suspend fun getSymptomCount(): Int {
-        return allSymptoms.size
-    }
-
-    override suspend fun getConditions(): List<Condition> {
-        return allConditions.toList()
-    }
-
-    override suspend fun getConditionById(id: String): Condition? {
-        return allConditions.firstOrNull { it.id == id }
-    }
-
-    override suspend fun searchConditions(query: String): List<Condition> {
-        return allConditions.filter { condition ->
-            condition.name.contains(query, ignoreCase = true)
-        }
-    }
-
-    override suspend fun getMatchingConditions(symptomIds: List<String>): List<Condition> {
-        // Simple placeholder: return all conditions for now
-        return allConditions.toList()
-    }
-
-    override suspend fun getConditionsByCategory(category: String): List<Condition> {
-        return allConditions.filter { it.category == category }
-    }
-
-    override suspend fun generateDiagnoses(symptomIds: List<String>): List<Pair<Condition, Float>> {
-        // Placeholder: return empty list until a real model is wired
-        return emptyList()
-    }
-
-    override suspend fun clearAllData() {
-        allSymptoms.clear()
-        allConditions.clear()
-        selectedSymptoms.value = emptyList()
-    }
-
-    override suspend fun initializeData() {
-        if (allSymptoms.isNotEmpty() || allConditions.isNotEmpty()) return
-
-        // Expanded demo symptom set so UI is more representative
-        allSymptoms.addAll(
-            listOf(
-                Symptom(
-                    id = "fever",
-                    name = "Ateş",
-                    description = "Vücut ısısında artış, üşüme veya titreme",
-                    category = SymptomCategory.GENERAL,
-                    severity = 3
-                ),
-                Symptom(
-                    id = "cough",
-                    name = "Öksürük",
-                    description = "Kuru veya balgamlı öksürük",
-                    category = SymptomCategory.RESPIRATORY,
-                    severity = 2
-                ),
-                Symptom(
-                    id = "runny_nose",
-                    name = "Burun Akıntısı",
-                    description = "Sulu veya koyu kıvamlı burun akıntısı",
-                    category = SymptomCategory.RESPIRATORY,
-                    severity = 1
-                ),
-                Symptom(
-                    id = "sore_throat",
-                    name = "Boğaz Ağrısı",
-                    description = "Yutkunmakla artan boğazda yanma veya batma hissi",
-                    category = SymptomCategory.EAR_NOSE_THROAT,
-                    severity = 2
-                ),
-                Symptom(
-                    id = "shortness_breath",
-                    name = "Nefes Darlığı",
-                    description = "Nefes nefese kalma veya derin nefes alamama hissi",
-                    category = SymptomCategory.RESPIRATORY,
-                    severity = 4
-                ),
-                Symptom(
-                    id = "chest_pain",
-                    name = "Göğüs Ağrısı",
-                    description = "Göğüste baskı, sıkışma veya batma hissi",
-                    category = SymptomCategory.CHEST,
-                    severity = 4
-                ),
-                Symptom(
-                    id = "headache",
-                    name = "Baş Ağrısı",
-                    description = "Sürekli veya aralıklı baş ağrısı",
-                    category = SymptomCategory.HEAD,
-                    severity = 2
-                ),
-                Symptom(
-                    id = "nausea",
-                    name = "Mide Bulantısı",
-                    description = "Mide bölgesinde bulantı hissi",
-                    category = SymptomCategory.GASTROINTESTINAL,
-                    severity = 2
-                ),
-                Symptom(
-                    id = "vomiting",
-                    name = "Kusma",
-                    description = "Tekrarlayan veya şiddetli kusma",
-                    category = SymptomCategory.GASTROINTESTINAL,
-                    severity = 3
-                ),
-                Symptom(
-                    id = "diarrhea",
-                    name = "İshal",
-                    description = "Sık ve sulu dışkılama",
-                    category = SymptomCategory.GASTROINTESTINAL,
-                    severity = 2
-                ),
-                Symptom(
-                    id = "rash",
-                    name = "Döküntü",
-                    description = "Ciltte kızarıklık, kabarıklık veya lekelenme",
-                    category = SymptomCategory.SKIN,
-                    severity = 2
-                ),
-                Symptom(
-                    id = "sneezing",
-                    name = "Hapşırma",
-                    description = "Tekrarlayan hapşırma atakları",
-                    category = SymptomCategory.RESPIRATORY,
-                    severity = 1
-                ),
-                Symptom(
-                    id = "itchy_eyes",
-                    name = "Göz Kaşıntısı",
-                    description = "Gözlerde kaşıntı ve sulanma",
-                    category = SymptomCategory.EYE,
-                    severity = 1
-                ),
-                Symptom(
-                    id = "loss_smell_taste",
-                    name = "Koku/Tat Kaybı",
-                    description = "Koku veya tat duyusunda azalma/kaybolma",
-                    category = SymptomCategory.NEUROLOGICAL,
-                    severity = 3
-                ),
-                Symptom(
-                    id = "confusion",
-                    name = "Bilinç Bulanıklığı",
-                    description = "Çevreyi algılamada güçlük veya karışıklık",
-                    category = SymptomCategory.NEUROLOGICAL,
-                    severity = 5
-                ),
-                Symptom(
-                    id = "stiff_neck",
-                    name = "Ense Sertliği",
-                    description = "Başınızı öne eğmekte zorlanma",
-                    category = SymptomCategory.NEUROLOGICAL,
-                    severity = 4
-                ),
-                Symptom(
-                    id = "chills",
-                    name = "Titreme",
-                    description = "Üşüme ile birlikte istemsiz titreme",
-                    category = SymptomCategory.GENERAL,
-                    severity = 2
-                ),
-                Symptom(
-                    id = "night_sweats",
-                    name = "Gece Terlemeleri",
-                    description = "Geceleri uykudan terlemiş uyanma",
-                    category = SymptomCategory.GENERAL,
-                    severity = 2
-                ),
-                Symptom(
-                    id = "muscle_pain",
-                    name = "Kas Ağrısı",
-                    description = "Kaslarda hassasiyet ve ağrı",
-                    category = SymptomCategory.MUSCULOSKELETAL,
-                    severity = 2
-                ),
-                Symptom(
-                    id = "fatigue",
-                    name = "Yorgunluk / Halsizlik",
-                    description = "Genel enerji düşüklüğü ve halsizlik",
-                    category = SymptomCategory.GENERAL,
-                    severity = 2
-                )
-            )
-        )
-    }
-
-    override suspend fun isDataInitialized(): Boolean {
-        return allSymptoms.isNotEmpty() || allConditions.isNotEmpty()
-    }
+    override suspend fun getSymptomCount(): Int = allSymptoms.size
+    override suspend fun getConditions(): List<Condition> = allConditions
+    override suspend fun getConditionById(id: String): Condition? = allConditions.find { it.id == id }
+    override suspend fun searchConditions(query: String): List<Condition> = allConditions.filter { it.name.contains(query, ignoreCase = true) }
+    override suspend fun getMatchingConditions(symptomIds: List<String>): List<Condition> = emptyList()
+    override suspend fun getConditionsByCategory(category: String): List<Condition> = emptyList()
+    override suspend fun generateDiagnoses(symptomIds: List<String>): List<Pair<Condition, Float>> = emptyList()
+    override suspend fun clearAllData() { _selectedSymptoms.value = emptyList() }
+    override suspend fun initializeData() {}
+    override suspend fun isDataInitialized(): Boolean = true
 }

@@ -2,6 +2,7 @@ package com.semptom.ai.ui.screens.triage
 
 import android.content.Intent
 import android.net.Uri
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -33,80 +34,96 @@ fun TriageScreen(
             )
         }
     ) { paddingValues ->
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
-                .padding(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+                .background(
+                    androidx.compose.ui.graphics.Brush.verticalGradient(
+                        colors = listOf(
+                            androidx.compose.ui.graphics.Color(0xFF1E3A8A),
+                            androidx.compose.ui.graphics.Color(0xFF3B82F6),
+                            androidx.compose.ui.graphics.Color(0xFF60A5FA),
+                            androidx.compose.ui.graphics.Color(0xFFDBEAFE)
+                        ),
+                        startY = 0f,
+                        endY = 1000f
+                    )
+                )
         ) {
-            // Emergency Icon
-            Icon(
-                imageVector = Icons.Default.LocalHospital,
-                contentDescription = null,
-                modifier = Modifier.size(120.dp),
-                tint = MaterialTheme.colorScheme.error
-            )
-            
-            Spacer(modifier = Modifier.height(24.dp))
-            
-            // Warning Message
-            Text(
-                text = stringResource(R.string.triage_warning),
-                style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.error
-            )
-            
-            Spacer(modifier = Modifier.height(16.dp))
-            
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.errorContainer
-                )
-            ) {
-                Text(
-                    text = "Girdiğiniz belirtiler (şiddetli göğüs ağrısı, nefes darlığı vb.) acil tıbbi müdahale gerektirebilir. Lütfen derhal en yakın acil servise başvurun veya 112'yi arayın.",
-                    style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(16.dp),
-                    textAlign = TextAlign.Center
-                )
-            }
-            
-            Spacer(modifier = Modifier.height(32.dp))
-            
-            // Emergency Actions
-            Button(
-                onClick = {
-                    val intent = Intent(Intent.ACTION_DIAL).apply {
-                        data = Uri.parse("tel:112")
-                    }
-                    context.startActivity(intent)
-                },
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(64.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.error
-                )
+                    .fillMaxSize()
+                    .padding(paddingValues)
+                    .padding(24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
-                Icon(Icons.Default.Phone, contentDescription = null)
-                Spacer(modifier = Modifier.width(12.dp))
-                Text(
-                    text = stringResource(R.string.triage_call_112),
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold
+                // Emergency Icon
+                Icon(
+                    imageVector = Icons.Default.LocalHospital,
+                    contentDescription = null,
+                    modifier = Modifier.size(120.dp),
+                    tint = MaterialTheme.colorScheme.error
                 )
-            }
-            
-            Spacer(modifier = Modifier.height(32.dp))
-            
-            TextButton(onClick = onBack) {
-                Text(stringResource(R.string.triage_back))
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                // Warning Message
+                Text(
+                    text = stringResource(R.string.triage_warning),
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.error
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.errorContainer
+                    )
+                ) {
+                    Text(
+                        text = "Girdiğiniz belirtiler (şiddetli göğüs ağrısı, nefes darlığı vb.) acil tıbbi müdahale gerektirebilir. Lütfen derhal en yakın acil servise başvurun veya 112'yi arayın.",
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.padding(16.dp),
+                        textAlign = TextAlign.Center
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(32.dp))
+
+                // Emergency Actions
+                Button(
+                    onClick = {
+                        val intent = Intent(Intent.ACTION_DIAL).apply {
+                            data = Uri.parse("tel:112")
+                        }
+                        context.startActivity(intent)
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(64.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.error
+                    )
+                ) {
+                    Icon(Icons.Default.Phone, contentDescription = null)
+                    Spacer(modifier = Modifier.width(12.dp))
+                    Text(
+                        text = stringResource(R.string.triage_call_112),
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(32.dp))
+
+                TextButton(onClick = onBack) {
+                    Text(stringResource(R.string.triage_back))
+                }
             }
         }
-    }
-}
+    }}

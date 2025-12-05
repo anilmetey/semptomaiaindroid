@@ -85,7 +85,7 @@
           "options": [
             { "text": "Hayır", "value": "visual_none", "severityIndex": 0 },
             { "text": "Evet, ışıklar/çizgiler görüyorum (Aura)", "value": "visual_aura", "severityIndex": 4 },
-            { "text": "Çift görme veya ani görme kaybı", "value": "visual_loss", "severityIndex": 9, "redFlag": true }
+            { "text" "Çift görme veya ani görme kaybı", "value": "visual_loss", "severityIndex": 9, "redFlag": true }
           ]
         },
         {

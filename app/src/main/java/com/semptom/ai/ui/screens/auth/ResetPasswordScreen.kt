@@ -36,40 +36,37 @@ private val PrimaryBlack = Color(0xFF1C1C1C) // Koyu arka plan metin rengi
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(
-    onLoginSuccess: () -> Unit,
-    onNavigateToRegister: () -> Unit,
-    onForgotPassword: () -> Unit,
-    viewModel: AuthViewModel = hiltViewModel()
+fun ResetPasswordScreen(
+    email: String,
+    verificationCode: String,
+    onPasswordReset: () -> Unit,
+    onBackToVerifyCode: () -> Unit,
+    viewModel: AuthViewModel
 ) {
-    val uiState by viewModel.uiState.collectAsState()
     val focusManager = LocalFocusManager.current
-
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var passwordVisible by remember { mutableStateOf(false) }
-
-    val emailValid by remember(email) {
-        mutableStateOf(email.isNotBlank() && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches())
-    }
-    val canSubmit = !uiState.isLoading && emailValid && password.isNotBlank()
-
-    var scale by remember { mutableStateOf(0.8f) }
-    val animatedScale by animateFloatAsState(
-        targetValue = scale,
-        animationSpec = tween(durationMillis = 800, easing = EaseOutBack),
-        label = "logo_scale"
-    )
-
-    LaunchedEffect(Unit) {
-        scale = 1f
-    }
-
-    LaunchedEffect(uiState.isLoggedIn) {
-        if (uiState.isLoggedIn) {
-            onLoginSuccess()
+    val uiState by viewModel.uiState.collectAsState()
+    
+    LaunchedEffect(uiState.isPasswordReset) {
+        if (uiState.isPasswordReset) {
+            // İstersen otomatik login ekranına dönsün:
+            // onPasswordReset()
         }
     }
+    
+    var newPassword by remember { mutableStateOf("") }
+    var confirmPassword by remember { mutableStateOf("") }
+    var passwordVisible by remember { mutableStateOf(false) }
+    var confirmPasswordVisible by remember { mutableStateOf(false) }
+    
+    val passwordsMatch by remember(newPassword, confirmPassword) {
+        mutableStateOf(newPassword.isNotBlank() && confirmPassword.isNotBlank() && newPassword == confirmPassword)
+    }
+    val canSubmit = !uiState.isLoading && newPassword.isNotBlank() && passwordsMatch && newPassword.length >= 6
+    
+    val scale by animateFloatAsState(
+        targetValue = 1f,
+        animationSpec = tween(durationMillis = 800, easing = EaseOutBack)
+    )
 
     Box(
         modifier = Modifier
@@ -94,13 +91,38 @@ fun LoginScreen(
                 .padding(horizontal = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(48.dp)) // Sıkıştırıldı
+            Spacer(modifier = Modifier.height(48.dp))
 
-            // Logo with glass effect (Boyut 90.dp'ye düşürüldü)
+            // Back button
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Start
+            ) {
+                IconButton(
+                    onClick = onBackToVerifyCode,
+                    modifier = Modifier
+                        .size(48.dp)
+                        .background(
+                            Color.White.copy(alpha = 0.2f),
+                            CircleShape
+                        )
+                ) {
+                    Icon(
+                        Icons.Default.ArrowBack,
+                        contentDescription = "Geri",
+                        tint = PrimaryBlack,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            // Logo with glass effect
             Surface(
                 modifier = Modifier
                     .size(90.dp)
-                    .scale(animatedScale)
+                    .scale(scale)
                     .shadow(
                         elevation = 15.dp,
                         shape = CircleShape,
@@ -124,18 +146,18 @@ fun LoginScreen(
                         )
                 ) {
                     Icon(
-                        imageVector = Icons.Default.LocalHospital,
+                        imageVector = Icons.Default.LockReset,
                         contentDescription = null,
-                        modifier = Modifier.size(50.dp), // Icon size adjusted
+                        modifier = Modifier.size(50.dp),
                         tint = PrimaryBlack
                     )
                 }
             }
 
-            Spacer(modifier = Modifier.height(24.dp)) // Sıkıştırıldı
+            Spacer(modifier = Modifier.height(24.dp))
 
             Text(
-                text = "SemptomAI",
+                text = "Yeni Şifre",
                 style = MaterialTheme.typography.headlineLarge,
                 fontWeight = FontWeight.Black,
                 color = PrimaryBlack,
@@ -143,14 +165,14 @@ fun LoginScreen(
             )
 
             Text(
-                text = "Akıllı Sağlık Asistanınız",
+                text = "Yeni şifrenizi belirleyin",
                 style = MaterialTheme.typography.bodyMedium,
                 color = PrimaryBlack,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
 
-            Spacer(modifier = Modifier.height(12.dp)) // Sıkıştırıldı
+            Spacer(modifier = Modifier.height(12.dp))
 
             // Modern divider
             Box(
@@ -169,7 +191,7 @@ fun LoginScreen(
                     )
             )
 
-            Spacer(modifier = Modifier.height(32.dp)) // Sıkıştırıldı
+            Spacer(modifier = Modifier.height(32.dp))
 
             // Glass card for form
             Surface(
@@ -183,11 +205,11 @@ fun LoginScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(24.dp), // Padding sıkıştırıldı
-                    verticalArrangement = Arrangement.spacedBy(20.dp) // Sıkıştırıldı
+                        .padding(24.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     Text(
-                        text = "Hoş Geldiniz",
+                        text = "Şifre Belirle",
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.Bold,
                         color = PrimaryBlack,
@@ -195,26 +217,32 @@ fun LoginScreen(
                     )
 
                     Text(
-                        text = "Hesabınıza giriş yapın",
+                        text = "Güçlü bir şifre seçin",
                         style = MaterialTheme.typography.bodySmall,
                         color = PrimaryBlack
                     )
 
-                    // Email field
+                    // New Password Field
                     OutlinedTextField(
-                        value = email,
-                        onValueChange = { email = it },
-                        placeholder = { Text("E-posta", color = PrimaryBlack.copy(alpha = 0.6f)) },
-                        leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = null, tint = DarkBlueBorder) },
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email, imeAction = ImeAction.Next),
+                        value = newPassword,
+                        onValueChange = { newPassword = it },
+                        placeholder = { Text("Yeni Şifre (min. 6 karakter)", color = PrimaryBlack.copy(alpha = 0.6f)) },
+                        leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null, tint = DarkBlueBorder) },
+                        trailingIcon = {
+                            IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                                Icon(imageVector = if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff, contentDescription = null, tint = DarkBlueBorder)
+                            }
+                        },
+                        visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Next),
                         keyboardActions = KeyboardActions(onNext = { focusManager.moveFocus(FocusDirection.Down) }),
                         singleLine = true,
                         shape = RoundedCornerShape(16.dp),
                         modifier = Modifier.fillMaxWidth(),
-                        isError = email.isNotEmpty() && !emailValid,
+                        isError = newPassword.isNotEmpty() && newPassword.length < 6,
                         supportingText = {
-                            if (email.isNotEmpty() && !emailValid) {
-                                Text("Geçerli bir e-posta girin", color = Color(0xFFFF6B6B))
+                            if (newPassword.isNotEmpty() && newPassword.length < 6) {
+                                Text("Şifre en az 6 karakter olmalı", color = Color(0xFFFF6B6B))
                             }
                         },
                         colors = OutlinedTextFieldDefaults.colors(
@@ -226,23 +254,34 @@ fun LoginScreen(
                         )
                     )
 
-                    // Password field
+                    // Confirm Password Field
                     OutlinedTextField(
-                        value = password,
-                        onValueChange = { password = it },
-                        placeholder = { Text("Şifre", color = PrimaryBlack.copy(alpha = 0.6f)) },
-                        leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = null, tint = DarkBlueBorder) },
+                        value = confirmPassword,
+                        onValueChange = { confirmPassword = it },
+                        placeholder = { Text("Şifre Tekrar", color = PrimaryBlack.copy(alpha = 0.6f)) },
+                        leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null, tint = DarkBlueBorder) },
                         trailingIcon = {
-                            IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                                Icon(imageVector = if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff, contentDescription = if (passwordVisible) "Şifreyi gizle" else "Şifreyi göster", tint = DarkBlueBorder)
+                            IconButton(onClick = { confirmPasswordVisible = !confirmPasswordVisible }) {
+                                Icon(imageVector = if (confirmPasswordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff, contentDescription = null, tint = DarkBlueBorder)
                             }
                         },
-                        visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                        visualTransformation = if (confirmPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Done),
-                        keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus(); if (emailValid && password.isNotBlank()) { viewModel.login(email, password) } }),
+                        keyboardActions = KeyboardActions(onDone = { 
+                            focusManager.clearFocus()
+                            if (canSubmit) {
+                                viewModel.resetPassword(email, verificationCode, newPassword)
+                            }
+                        }),
                         singleLine = true,
+                        isError = newPassword.isNotEmpty() && confirmPassword.isNotEmpty() && newPassword != confirmPassword,
                         shape = RoundedCornerShape(16.dp),
                         modifier = Modifier.fillMaxWidth(),
+                        supportingText = {
+                            if (newPassword.isNotEmpty() && confirmPassword.isNotEmpty() && newPassword != confirmPassword) {
+                                Text("Şifreler eşleşmiyor", color = Color(0xFFFF6B6B))
+                            }
+                        },
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = DarkBlueBorder,
                             unfocusedBorderColor = DarkBlueBorder.copy(alpha = 0.6f),
@@ -251,20 +290,28 @@ fun LoginScreen(
                             errorBorderColor = Color(0xFFFF6B6B)
                         )
                     )
+                }
+            }
 
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.End
-                    ) {
-                        TextButton(onClick = onForgotPassword) {
-                            Text(text = "Şifremi Unuttum?", color = PrimaryBlack.copy(alpha = 0.9f), fontSize = 14.sp, fontWeight = FontWeight.Medium)
-                        }
+            // Error messages
+            if (newPassword.isNotEmpty() && confirmPassword.isNotEmpty() && newPassword != confirmPassword) {
+                Spacer(modifier = Modifier.height(12.dp))
+                Surface(
+                    modifier = Modifier.fillMaxWidth(),
+                    color = Color(0xFFFF6B6B).copy(alpha = 0.2f),
+                    shape = RoundedCornerShape(16.dp),
+                    border = BorderStroke(1.dp, Color(0xFFFF6B6B).copy(alpha = 0.5f))
+                ) {
+                    Row(modifier = Modifier.padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Icon(Icons.Default.Error, contentDescription = null, tint = Color(0xFFFF6B6B), modifier = Modifier.size(20.dp))
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(text = "Şifreler eşleşmiyor", color = Color.White, style = MaterialTheme.typography.bodyMedium)
                     }
                 }
             }
 
             if (uiState.error != null) {
-                Spacer(modifier = Modifier.height(12.dp)) // Sıkıştırıldı
+                Spacer(modifier = Modifier.height(12.dp))
                 Surface(
                     modifier = Modifier.fillMaxWidth(),
                     color = Color(0xFFFF6B6B).copy(alpha = 0.2f),
@@ -279,14 +326,18 @@ fun LoginScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(24.dp)) // Sıkıştırıldı
+            Spacer(modifier = Modifier.height(24.dp))
 
-            // Login button
+            // Reset button
             Button(
-                onClick = { viewModel.login(email, password) },
+                onClick = { 
+                    if (canSubmit) {
+                        viewModel.resetPassword(email, verificationCode, newPassword)
+                    }
+                },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(56.dp) // Boyut sıkıştırıldı
+                    .height(56.dp)
                     .shadow(elevation = 8.dp, shape = RoundedCornerShape(32.dp), ambientColor = Color.White.copy(alpha = 0.3f), spotColor = Color.White.copy(alpha = 0.3f)),
                 enabled = canSubmit,
                 shape = RoundedCornerShape(32.dp),
@@ -295,27 +346,62 @@ fun LoginScreen(
                 if (uiState.isLoading) {
                     CircularProgressIndicator(modifier = Modifier.size(24.dp), color = Color.White, strokeWidth = 3.dp)
                 } else {
-                    Icon(Icons.Default.Login, contentDescription = null, modifier = Modifier.size(24.dp))
+                    Icon(Icons.Default.LockReset, contentDescription = null, modifier = Modifier.size(24.dp))
                     Spacer(modifier = Modifier.width(12.dp))
-                    Text(text = "Giriş Yap", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+                    Text(text = "Şifreyi Güncelle", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
                 }
             }
 
-            Spacer(modifier = Modifier.height(12.dp)) // Sıkıştırıldı
+            // Şifre başarıyla güncellendiyse kullanıcıya göster
+            if (uiState.isPasswordReset) {
+                Spacer(modifier = Modifier.height(16.dp))
+                Surface(
+                    modifier = Modifier.fillMaxWidth(),
+                    color = Color(0xFF10B981).copy(alpha = 0.2f),
+                    shape = RoundedCornerShape(16.dp),
+                    border = BorderStroke(1.dp, Color(0xFF10B981))
+                ) {
+                    Column(
+                        modifier = Modifier.padding(16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.CheckCircle,
+                            contentDescription = null,
+                            tint = Color(0xFF10B981)
+                        )
+                        Text(
+                            text = "Şifreniz başarıyla güncellendi.",
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = PrimaryBlack,
+                            textAlign = TextAlign.Center
+                        )
+                        Button(
+                            onClick = onPasswordReset,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text("Giriş ekranına dön")
+                        }
+                    }
+                }
+            }
 
-            // Register Link
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // Back to verify code
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = "Hesabınız yok mu?", style = MaterialTheme.typography.bodyLarge, color = PrimaryBlack.copy(alpha = 0.8f))
-                TextButton(onClick = onNavigateToRegister) {
-                    Text(text = "Kayıt Ol", color = PrimaryBlack, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                Text(text = "Kodu yanlış girdiniz?", style = MaterialTheme.typography.bodyLarge, color = PrimaryBlack.copy(alpha = 0.8f))
+                TextButton(onClick = onBackToVerifyCode) {
+                    Text(text = "Geri Dön", color = PrimaryBlack, fontWeight = FontWeight.Bold, fontSize = 16.sp)
                 }
             }
 
-            Spacer(modifier = Modifier.height(24.dp)) // Bottom spacing sıkıştırıldı
+            Spacer(modifier = Modifier.height(24.dp))
         }
     }
 }

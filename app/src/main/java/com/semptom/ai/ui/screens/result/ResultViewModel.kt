@@ -2,12 +2,18 @@ package com.semptom.ai.ui.screens.result
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.semptom.ai.data.repository.JournalRepository
-import com.semptom.ai.data.repository.ModelRepository
-import com.semptom.ai.data.repository.SymptomRepository
+import com.semptom.ai.domain.repository.JournalRepository
+import com.semptom.ai.domain.repository.ModelRepository
+import com.semptom.ai.domain.repository.SymptomRepository
+import com.semptom.ai.domain.repository.MedicationRepository
+import com.semptom.ai.domain.repository.ProfileRepository
 import com.semptom.ai.domain.model.Advice
 import com.semptom.ai.domain.model.Disease
 import com.semptom.ai.domain.model.Symptom
+import com.semptom.ai.domain.model.AgeGroup
+import com.semptom.ai.domain.model.ChronicDisease
+import com.semptom.ai.domain.model.JournalEntry
+import com.semptom.ai.domain.model.JournalResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -27,7 +33,9 @@ data class ResultUiState(
 class ResultViewModel @Inject constructor(
     private val modelRepository: ModelRepository,
     private val journalRepository: JournalRepository,
-    private val symptomRepository: SymptomRepository
+    private val symptomRepository: SymptomRepository,
+    private val profileRepository: ProfileRepository,
+    private val medicationRepository: MedicationRepository
 ) : ViewModel() {
     
     private val _uiState = MutableStateFlow(ResultUiState())
@@ -169,6 +177,71 @@ class ResultViewModel @Inject constructor(
                 )
             }
 
+            try {
+                val profile = profileRepository.getProfileOnce()
+
+                var weightCold = 1f
+                var weightFlu = 1f
+                var weightAllergy = 1f
+
+                when (profile.ageGroup) {
+                    AgeGroup.CHILD -> {
+                        weightFlu *= 1.1f
+                        weightAllergy *= 1.05f
+                    }
+                    AgeGroup.SENIOR -> {
+                        weightFlu *= 1.15f
+                        weightCold *= 1.05f
+                    }
+                    else -> {}
+                }
+
+                if (profile.chronicDiseases.contains(ChronicDisease.ASTHMA)) {
+                    weightAllergy *= 1.15f
+                }
+                if (profile.chronicDiseases.contains(ChronicDisease.COPD)) {
+                    weightFlu *= 1.1f
+                }
+
+                val sum = (diseases.sumOf { it.probability.toDouble() }).toFloat().takeIf { it > 0f } ?: 1f
+                var coldP = diseases.find { it.id == "cold" }?.probability ?: 0f
+                var fluP = diseases.find { it.id == "flu" }?.probability ?: 0f
+                var allergyP = diseases.find { it.id == "allergy" }?.probability ?: 0f
+
+                coldP *= weightCold
+                fluP *= weightFlu
+                allergyP *= weightAllergy
+
+                val renorm = (coldP + fluP + allergyP).takeIf { it > 0f } ?: sum
+
+                val adjusted = diseases.map { d ->
+                    when (d.id) {
+                        "cold" -> d.copy(probability = (coldP / renorm).coerceIn(0.05f, 0.9f))
+                        "flu" -> d.copy(probability = (fluP / renorm).coerceIn(0.05f, 0.9f))
+                        "allergy" -> d.copy(probability = (allergyP / renorm).coerceIn(0.05f, 0.9f))
+                        else -> d
+                    }
+                }
+
+                val medWarnings = medicationRepository.generateWarnings(profile)
+                if (medWarnings.isNotEmpty()) {
+                    advices += Advice(
+                        "İlaç/Uyarılar",
+                        "Profilinize göre dikkat edilmesi gereken noktalar.",
+                        com.semptom.ai.domain.model.AdviceType.MEDICATION_INFO,
+                        medWarnings
+                    )
+                }
+
+                _uiState.value = _uiState.value.copy(
+                    diseases = adjusted,
+                    advices = advices,
+                    hasAlertSymptoms = hasAlertSymptom,
+                    symptomCount = selectedSymptoms.size
+                )
+                return@launch
+            } catch (_: Exception) {}
+
             _uiState.value = _uiState.value.copy(
                 diseases = diseases,
                 advices = advices,
@@ -183,10 +256,10 @@ class ResultViewModel @Inject constructor(
             try {
                 val state = _uiState.value
                 if (state.diseases.isNotEmpty()) {
-                    val entry = com.semptom.ai.data.repository.JournalEntry(
+                    val entry = JournalEntry(
                         symptoms = selectedSymptomsCache.map { it.name },
                         isTriageCase = false,
-                        result = com.semptom.ai.data.repository.JournalResult(
+                        result = JournalResult(
                             diseases = state.diseases
                         )
                     )

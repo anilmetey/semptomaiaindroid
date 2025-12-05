@@ -2,22 +2,25 @@ package com.semptom.ai.di
 
 import com.semptom.ai.data.local.dao.InMemorySymptomEntryDao
 import com.semptom.ai.data.local.dao.SymptomEntryDao
-import com.semptom.ai.data.repository.AuthRepository
 import com.semptom.ai.data.repository.InMemoryAuthRepository
 import com.semptom.ai.data.repository.InMemoryJournalRepository
-import com.semptom.ai.data.repository.InMemoryModelRepository
 import com.semptom.ai.data.repository.InMemoryProfileRepository
-import com.semptom.ai.data.repository.JournalRepository
-import com.semptom.ai.data.repository.ModelRepository
-import com.semptom.ai.data.repository.ProfileRepository
-import com.semptom.ai.data.repository.SymptomRepository
+import com.semptom.ai.data.repository.InMemoryMedicationRepository
+import com.semptom.ai.data.repository.InMemoryModelRepository
+import com.semptom.ai.domain.repository.AuthRepository
+import com.semptom.ai.domain.repository.ProfileRepository
+import com.semptom.ai.domain.repository.JournalRepository
+import com.semptom.ai.domain.repository.MedicationRepository
+import com.semptom.ai.domain.repository.ModelRepository
+import com.semptom.ai.domain.repository.SymptomRepository
 import com.semptom.ai.data.repository.SymptomRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
+import android.content.Context
 import javax.inject.Singleton
-
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
@@ -30,8 +33,10 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideAuthRepository(): AuthRepository {
-        return InMemoryAuthRepository()
+    fun provideAuthRepository(
+        @ApplicationContext appContext: Context
+    ): AuthRepository {
+        return InMemoryAuthRepository(appContext)
     }
 
     @Provides
@@ -56,5 +61,11 @@ object AppModule {
     @Singleton
     fun provideSymptomEntryDao(): SymptomEntryDao {
         return InMemorySymptomEntryDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideMedicationRepository(): MedicationRepository {
+        return InMemoryMedicationRepository()
     }
 }

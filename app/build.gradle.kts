@@ -56,6 +56,12 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "/META-INF/DEPENDENCIES"
+            excludes += "/META-INF/LICENSE"
+            excludes += "/META-INF/LICENSE.txt"
+            excludes += "/META-INF/NOTICE"
+            excludes += "/META-INF/NOTICE.txt"
+            pickFirsts += "/META-INF/{NOTICE.md,LICENSE.md}"
         }
     }
 }
@@ -82,6 +88,13 @@ dependencies {
 
     // DataStore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
+
+    // TensorFlow Lite
+    implementation("org.tensorflow:tensorflow-lite:2.12.0")
+
+    // JavaMail for email sending
+    implementation("com.sun.mail:android-mail:1.6.7")
+    implementation("com.sun.mail:android-activation:1.6.7")
 
     // Testing
     testImplementation("junit:junit:4.13.2")

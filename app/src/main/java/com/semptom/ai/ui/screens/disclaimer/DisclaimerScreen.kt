@@ -1,5 +1,6 @@
 package com.semptom.ai.ui.screens.disclaimer
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -41,12 +42,28 @@ private fun DisclaimerContent(
     onAccept: () -> Unit,
     onDecline: () -> Unit
 ) {
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .background(
+                androidx.compose.ui.graphics.Brush.verticalGradient(
+                    colors = listOf(
+                        androidx.compose.ui.graphics.Color(0xFF1E3A8A),
+                        androidx.compose.ui.graphics.Color(0xFF3B82F6),
+                        androidx.compose.ui.graphics.Color(0xFF60A5FA),
+                        androidx.compose.ui.graphics.Color(0xFFDBEAFE)
+                    ),
+                    startY = 0f,
+                    endY = 1000f
+                )
+            )
     ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
         Spacer(modifier = Modifier.height(32.dp))
         
         // Warning Icon
@@ -120,5 +137,6 @@ private fun DisclaimerContent(
         }
         
         Spacer(modifier = Modifier.height(16.dp))
+    }
     }
 }

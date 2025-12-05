@@ -2,8 +2,8 @@ package com.semptom.ai.ui.screens.journal
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.semptom.ai.data.repository.JournalEntry
-import com.semptom.ai.data.repository.JournalRepository
+import com.semptom.ai.domain.model.JournalEntry
+import com.semptom.ai.domain.repository.JournalRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -37,7 +37,7 @@ class JournalViewModel @Inject constructor(
     
     fun deleteEntry(entry: JournalEntry) {
         viewModelScope.launch {
-            journalRepository.deleteEntry(entry)
+            journalRepository.deleteEntry(entry.id)
         }
     }
 }
