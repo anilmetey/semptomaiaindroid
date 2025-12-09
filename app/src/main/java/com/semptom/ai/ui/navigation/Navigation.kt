@@ -27,6 +27,7 @@ import com.semptom.ai.ui.screens.triage.TriageScreen
 import com.semptom.ai.ui.screens.splash.SplashScreen
 import com.semptom.ai.ui.screens.analysis.AnalysisScreen
 import com.semptom.ai.ui.screens.analysis.TextAnalysisScreen
+import com.semptom.ai.ui.screens.notifications.NotificationsScreen
 
 sealed class Screen(val route: String) {
     object Splash : Screen("splash")
@@ -47,6 +48,7 @@ sealed class Screen(val route: String) {
     object Statistics : Screen("statistics")
     object Analysis : Screen("analysis")
     object TextAnalysis : Screen("text_analysis")
+    object Notifications : Screen("notifications")
 }
 
 @Composable
@@ -214,6 +216,9 @@ fun SemptomAINavigation() {
                 },
                 onNavigateToTextAnalysis = {
                     navController.navigate(Screen.TextAnalysis.route)
+                },
+                onNavigateToNotifications = {
+                    navController.navigate(Screen.Notifications.route)
                 }
             )
         }
@@ -339,6 +344,14 @@ fun SemptomAINavigation() {
                 },
                 onNavigateToProfile = {
                     navController.navigate(Screen.Profile.route)
+                }
+            )
+        }
+
+        composable(Screen.Notifications.route) {
+            NotificationsScreen(
+                onBack = {
+                    navController.popBackStack()
                 }
             )
         }

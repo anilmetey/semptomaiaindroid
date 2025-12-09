@@ -307,7 +307,7 @@ fun ProfileScreen(
                             )
                             
                             Text(
-                                text = "Sağlık profilinizi kişisştirin",
+                                text = "Sağlık profilinizi kişiselleştirin",
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = PrimaryBlack.copy(alpha = 0.8f),
                                 textAlign = TextAlign.Center
